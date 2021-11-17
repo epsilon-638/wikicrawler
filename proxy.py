@@ -1,3 +1,5 @@
+# author: epsilon-638
+
 import requests as req
 from itertools import cycle
 from bs4 import BeautifulSoup
