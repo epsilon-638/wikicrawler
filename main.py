@@ -1,6 +1,10 @@
 import proxy
 
-if __name__=="__main__":
-	proxy_list = proxy.ProxyList()
-    proxy_list.fetch_proxies()
-	proxy_list.return_proxies()
+ports = ["8080", "80"]
+
+proxy_list = proxy.ProxyList(https=False, ports=ports)
+proxy_list.fetch_proxies()
+proxy_list.return_proxies()
+
+content = proxy_list.get("https://google.com")
+print(content)
