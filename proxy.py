@@ -136,4 +136,7 @@ class ProxyList:
 
     def return_proxies(self):
         for p in self.proxies:
-            print(p.return_proxy()["http"])
+            try:
+                print(p.return_proxy()["http"])
+            except:
+                continue
