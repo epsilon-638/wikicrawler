@@ -5,8 +5,8 @@
 ```python3
 import proxy
 
-if __name__=="__main__":
-	proxy_list = proxy.ProxyList()
-	proxy_list.fetch_proxies()
-	proxy_list.return_proxies()
+proxy_list = proxy.ProxyList()
+proxy_list.fetch_proxies()
+proxy_list.return_proxies()
+res = proxy_list.get("https://google.com")
 ```
