@@ -20,7 +20,7 @@ class Proxy:
         self.lifetime = lifetime
 
     def return_proxy(self):
-        proxy = f'{protocol}://{self.ip}:{self.port}'
+        proxy = f'{self.ip}:{self.port}'
         return {
             "http": proxy,
             "https": proxy,
@@ -111,7 +111,6 @@ class ProxyList:
             google = BeautifulSoup(str(data[4]), 'html.parser').get_text()
             https = BeautifulSoup(str(data[5]), 'html.parser').get_text()
             print(ip)
-            print(self.validate_proxy(anon, port, code, country, google, https))
             # if not self.validate_proxy(anon, port, code, country, google, https):
             proxies.append(Proxy(ip, port, code, country, anon, google, https, self.proxy_lifetime)) 
         self.proxies = proxies
@@ -132,3 +131,7 @@ class ProxyList:
                 self.rotate_proxies = cycle(self.proxies)
                 if len(self.proxies) == 0:
                     self.fetch_proxies()
+
+    def return_proxies(self):
+        for p in self.proxies:
+            print(p.return_proxy()["http"])
