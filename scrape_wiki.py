@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from dataclasses import dataclass
 import requests as req
-from req_headers import firefox_headers
+from request_headers import firefox_headers
 import json
 
 
@@ -20,43 +20,59 @@ MEDIA_EXTS = [
     "raw",
 ]
 
+
 @dataclass
 class WikiContent:
-
     internal_links: list[str]
     external_links: list[str]
     internal_media: list[str]
     external_media: list[str]
     citations: list[str]
 
+
 is_media = (lambda url:
-    (len(list(
-        filter(bool,
-            map(lambda ext: 
-                url.split(".")[-1].lower() == ext,
-                MEDIA_EXTS)))) > 0))
+    url.split(".")[-1].lower() in MEDIA_EXTS)
+
+
+#is_internal_link = (lambda url:
+#    True if
+#        url.startswith('/') 
+#        & (not url.startswith('//'))
+#     else False)
+
+is_internal = (lambda url:
+    True if
+        url.startswith('/')
+        & (not url.startswith('//')) 
+    else False)
+
+is_external = (lambda url:
+    True if
+        url.startswith('http')
+        | url.startswith('//')
+    else False)
 
 is_internal_link = (lambda url:
     True if
-        url.startswith('/') 
-        & (not url.startswith('//'))
+        is_internal(url)
+        & (not is_media(url))
      else False)
 
 is_external_link = (lambda url:
     True if
-        url.startswith('http') 
-        | url.startswith('//')
+        is_external(url)
+        & (not is_media(url))
      else False)
 
 is_internal_media = (lambda url:
     True if
-        is_internal_link(url) 
+        is_internal(url) 
         & is_media(url)
      else False)
 
 is_external_media = (lambda url:
     True if
-        is_external_link(url) 
+        is_external(url) 
         & is_media(url)
      else False)
 
@@ -64,7 +80,7 @@ is_not_none = (lambda url:
     url != 'None')
 
 is_citation = (lambda url:
-    not url.startswith('#'))
+    url.startswith('#'))
 
 get_soup = (lambda response:
     BeautifulSoup(response, 'html.parser'))
