@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import requests as req
 from request_headers import firefox_headers
 import json
+from typing import List
 
 
 MEDIA_EXTS = [
@@ -23,11 +24,12 @@ MEDIA_EXTS = [
 
 @dataclass
 class WikiContent:
-    internal_links: list[str]
-    external_links: list[str]
-    internal_media: list[str]
-    external_media: list[str]
-    citations: list[str]
+
+    internal_links: List[str]
+    external_links: List[str]
+    internal_media: List[str]
+    external_media: List[str]
+    citations: List[str]
 
 
 is_media = (lambda url:
