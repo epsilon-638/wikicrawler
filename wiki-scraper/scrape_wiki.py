@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from dataclasses import dataclass
+from dataclasses_json import dataclass_json
 import requests as req
 from request_headers import firefox_headers
 import json
@@ -22,6 +23,7 @@ MEDIA_EXTS = [
 ]
 
 
+@dataclass_json
 @dataclass
 class WikiContent:
 
@@ -34,13 +36,6 @@ class WikiContent:
 
 is_media = (lambda url:
     url.split(".")[-1].lower() in MEDIA_EXTS)
-
-
-#is_internal_link = (lambda url:
-#    True if
-#        url.startswith('/') 
-#        & (not url.startswith('//'))
-#     else False)
 
 is_internal = (lambda url:
     True if

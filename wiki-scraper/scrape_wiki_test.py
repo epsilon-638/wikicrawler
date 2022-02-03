@@ -7,6 +7,7 @@ pass_fail = {
     False: "FAIL🖕",
 }
 
+# should've used LISP 😐
 test_writer = (lambda t: 
                (lambda c: 
                 (lambda r: 

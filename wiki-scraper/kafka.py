@@ -22,13 +22,25 @@ def init_consumer():
         'group.id': CONSUMER_GROUP,
         'auto.offset.reset': 'earliest'
     })
-    consumer.subscribe(['node-content'])
+    consumer.subscribe(['urls'])
     return consumer
 
 def produce(p, msg):
     p.poll(0)
     p.produce(
         'node-content',
-        msg.encode('utf-8'),
+        msg.to_json(),
         callback=delivery_report,
     )
+
+def consume(c):
+    msg = consumer.poll(1.0)
+    if not msg:
+        continue
+
+    if msg.error():
+        print(f'Error: {msg.error()}')
+        continue
+    print(f'Message: {msg.value().decode('utf-8')})
+    return msg.value().decode('utf-8')
+

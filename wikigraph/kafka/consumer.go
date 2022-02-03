@@ -4,11 +4,6 @@ import (
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-const (
-	BROKER         = "PLAINTEXT://0.0.0.0:9092"
-	CONSUMER_GROUP = "wikigraph-1"
-)
-
 func returnConsumerConfigMap() *ckafka.ConfigMap {
 	return &ckafka.ConfigMap{
 		"bootstrap.servers": BROKER,
