@@ -1,6 +1,8 @@
 package kafka
 
 import (
+	"encoding/json"
+
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
@@ -28,12 +30,17 @@ func createEventObject(event []byte, topic string) *ckafka.Message {
 	}
 }
 
-/*
-func Produce(event map[string]interface{}, topic string) error {
+func Produce(producer *ckafka.Producer, event map[string]interface{}, topic string, deliverChan chan ckafk.Event) error {
 	b, err := json.Marshal(event)
 	if err != nil {
 		return err
 	}
 	eventObject := createEventObject(b, topic)
+	return producer.Produce(eventObject, deliveryChan)
 }
-*/
+
+func ProduceURL(producer *ckafka.Producer, url string, topic string, deliveryChan chan ckafka.Event) error {
+	b := []byte(url)
+	eventObject := createEventObject(b, topic)
+	return producer.Produce(eventObject, deliveryChan)
+}
